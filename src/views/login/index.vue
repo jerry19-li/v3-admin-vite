@@ -4,6 +4,8 @@ import { useRouter } from "vue-router"
 import { useUserStore } from "@/store/modules/user"
 import { User, Lock, Key } from "@element-plus/icons-vue"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
+import { useI18n } from "vue-i18n"
+import { useAppStore } from "@/store/modules/app"
 
 interface ILoginForm {
   /** admin 或 editor */
@@ -14,6 +16,7 @@ interface ILoginForm {
   code: string
 }
 
+const { t } = useI18n()
 const router = useRouter()
 const loginFormDom = ref<any>()
 
@@ -30,16 +33,17 @@ const state = reactive({
   } as ILoginForm,
   /** 登录表单校验规则 */
   loginRules: {
-    username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
+    username: [{ required: true, message: t("login.enterUsername"), trigger: "blur" }],
     password: [
-      { required: true, message: "请输入密码", trigger: "blur" },
-      { min: 8, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur" }
+      { required: true, message: t("login.enterPassword"), trigger: "blur" },
+      { min: 8, max: 16, message: t("login.passwordRule"), trigger: "blur" }
     ],
-    code: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+    code: [{ required: true, message: t("login.enterVerification"), trigger: "blur" }]
   },
   /** 登录逻辑 */
   handleLogin: () => {
     loginFormDom.value.validate((valid: boolean) => {
+      valid = false
       if (valid) {
         state.loading = true
         useUserStore()
@@ -88,7 +92,7 @@ const state = reactive({
           <el-form-item prop="username">
             <el-input
               v-model="state.loginForm.username"
-              placeholder="用户名"
+              :placeholder="t('login.username')"
               type="text"
               tabindex="1"
               :prefix-icon="User"
@@ -98,7 +102,7 @@ const state = reactive({
           <el-form-item prop="password">
             <el-input
               v-model="state.loginForm.password"
-              placeholder="密码"
+              :placeholder="t('login.password')"
               type="password"
               tabindex="2"
               :prefix-icon="Lock"
@@ -109,7 +113,7 @@ const state = reactive({
           <el-form-item prop="code">
             <el-input
               v-model="state.loginForm.code"
-              placeholder="验证码"
+              :placeholder="t('login.verificaionCode')"
               type="text"
               tabindex="3"
               :prefix-icon="Key"
@@ -121,7 +125,14 @@ const state = reactive({
             </span>
           </el-form-item>
           <el-button :loading="state.loading" type="primary" size="large" @click.prevent="state.handleLogin">
-            登 录
+            {{ t("login.loginButton") }}
+          </el-button>
+
+          <el-button :loading="state.loading" type="primary" size="large" @click="useAppStore().setLanguage('zh')">
+            中文
+          </el-button>
+          <el-button :loading="state.loading" type="primary" size="large" @click="useAppStore().setLanguage('en')">
+            英文
           </el-button>
         </el-form>
       </div>

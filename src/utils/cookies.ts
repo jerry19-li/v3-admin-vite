@@ -6,6 +6,9 @@ import Cookies from "js-cookie"
 export const getSidebarStatus = () => Cookies.get(Keys.sidebarStatus)
 export const setSidebarStatus = (sidebarStatus: string) => Cookies.set(Keys.sidebarStatus, sidebarStatus)
 
+export const getLanguage = () => Cookies.get(Keys.languageKey)
+export const setLanguage = (language: string) => Cookies.set(Keys.languageKey, language)
+
 export const getToken = () => Cookies.get(Keys.token)
 export const setToken = (token: string) => Cookies.set(Keys.token, token)
 export const removeToken = () => Cookies.remove(Keys.token)

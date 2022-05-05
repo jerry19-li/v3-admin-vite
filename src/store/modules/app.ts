@@ -1,6 +1,8 @@
 import { defineStore } from "pinia"
 import { getSidebarStatus, getActiveThemeName, setSidebarStatus, setActiveThemeName } from "@/utils/cookies"
 import themeList from "@/config/theme"
+import { getLocale } from "@/locales"
+import { setLanguage } from "@/utils/cookies"
 
 export enum DeviceType {
   Mobile,
@@ -17,6 +19,7 @@ interface IAppState {
   themeList: { title: string; name: string }[]
   /** 正在应用的主题的名字 */
   activeThemeName: string
+  language: string
 }
 
 export const useAppStore = defineStore({
@@ -29,7 +32,8 @@ export const useAppStore = defineStore({
         withoutAnimation: false
       },
       themeList: themeList,
-      activeThemeName: getActiveThemeName() || "normal"
+      activeThemeName: getActiveThemeName() || "normal",
+      language: getLocale()
     }
   },
   actions: {
@@ -63,6 +67,10 @@ export const useAppStore = defineStore({
     initTheme() {
       // 初始化
       document.body.className = `theme-${this.activeThemeName}`
+    },
+    setLanguage(language: string) {
+      this.language = language
+      setLanguage(language)
     }
   }
 })

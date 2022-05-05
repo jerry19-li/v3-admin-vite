@@ -124,3 +124,12 @@ QQ 群：1014374415（左）&& 加我微信，拉你进微信群（右）
 [MIT](https://github.com/un-pany/v3-admin-vite/blob/main/LICENSE)
 
 Copyright (c) 2022 pany
+
+国际化
+pnpm install i18n --save-dev
+
+原始 github
+https://github.com/RainManGO/vue3-composition-admin
+
+文档：
+https://vvbin.cn/doc-next/
