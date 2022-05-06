@@ -41,6 +41,21 @@ export const constantRoutes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: "/echat",
+    component: Layout,
+    children: [
+      {
+        path: "echat",
+        component: () => import("@/views/EchatDemo.vue"),
+        name: "图表",
+        meta: {
+          title: "图表",
+          icon: "link"
+        }
+      }
+    ]
+  },
+  {
     path: "/link",
     component: Layout,
     children: [

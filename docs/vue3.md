@@ -372,3 +372,92 @@ resolve: {
   }
 }
 ```
+
+## 图际化
+
+- 引入库`pnpm install i18n --save-dev`
+- 初始化
+
+```js
+import { createI18n } from "vue-i18n" // import from runtime only
+import { getLanguage } from "@/utils/cookies"
+
+import elementEnLocale from "element-plus/lib/locale/lang/en"
+import elementZhLocale from "element-plus/lib/locale/lang/zh-cn"
+
+// User defined lang
+import enLocale from "./en"
+import zhLocale from "./zh-cn"
+
+const messages = {
+  en: {
+    ...enLocale,
+    ...elementEnLocale
+  },
+  "zh-cn": {
+    ...zhLocale,
+    ...elementZhLocale
+  }
+}
+
+export const getLocale = () => {
+  const cookieLanguage = getLanguage()
+  if (cookieLanguage) {
+    return cookieLanguage
+  }
+  const language = navigator.language.toLowerCase()
+  const locales = Object.keys(messages)
+  for (const locale of locales) {
+    if (language.indexOf(locale) > -1) {
+      return locale
+    }
+  }
+
+  // Default language is english
+  return "zh-cn"
+}
+
+const i18n = createI18n({
+  legacy: false, // 使用Composition API模式，设置为false
+  //globalInjection: true,
+  locale: getLocale(),
+  messages: messages
+})
+
+export default i18n
+
+App.vue:
+import i18n from "@/locales"
+app.use(i18n)
+```
+
+- 切换语言
+
+```js
+import { useI18n } from "vue-i18n"
+const { locale } = useI18n()
+function handleSetLanguage(lang: string) {
+  locale.value = lang
+  store.setLanguage(lang)
+}
+```
+
+- 定义翻译表,en.ts，zh-cn.ts
+
+```js
+export default {
+  login: {
+    loginButton: "Login"
+  }
+}
+```
+
+- 使用
+
+```js
+import { useI18n } from "vue-i18n"
+const { t } = useI18n()
+<el-button type="primary">
+  {{ t("login.loginButton") }}
+</el-button>
+```
