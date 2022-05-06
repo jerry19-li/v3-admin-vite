@@ -1,17 +1,19 @@
 <template>
   <div>
-    <div id="main" />
+    <div id="main" ref="main" />
     <div id="maychar" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue"
+import { onMounted, ref } from "vue"
 import { init } from "echarts"
+
+const main = ref<any>()
 
 // 基本柱形图
 function change() {
-  const chartBox = init(document.getElementById("main"))
+  const chartBox = init(main.value)
   const option = {
     xAxis: {
       data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
