@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-dropdown>
-      <el-icon style="margin-right: 10px">
+      <span>{{ displayLanguage }}</span>
+      <el-icon style="margin-left: 5px">
         <ArrowDown />
       </el-icon>
-      <span>{{ displayLanguage }}</span>
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item v-for="item in state.languages" :key="item.value" :disabled="language === item.value">

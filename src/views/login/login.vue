@@ -129,8 +129,10 @@ const state = reactive({
             {{ t("login.loginButton") }}
           </el-button>
         </el-form>
+        <div>
+          <LanguageSelect class="lang-switch" />
+        </div>
       </div>
-      <LanguageSelect class="lang-switch" />
     </div>
   </div>
 </template>
@@ -163,10 +165,6 @@ const state = reactive({
         height: 100%;
       }
     }
-    .lang-switch {
-      cursor: pointer;
-      align-items: right;
-    }
     .content {
       padding: 20px 50px 50px 50px;
       .show-code {
@@ -184,6 +182,12 @@ const state = reactive({
       .el-button {
         width: 100%;
         margin-top: 10px;
+      }
+      .lang-switch {
+        cursor: pointer;
+        float: right;
+        margin-top: 20px;
+        margin-right: 5px;
       }
     }
   }
