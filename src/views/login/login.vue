@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, ref } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore } from "@/store/modules/user"
@@ -16,7 +16,10 @@ interface ILoginForm {
   code: string
 }
 
-const { t } = useI18n()
+const i18n = useI18n()
+const { t } = i18n
+//const { t } = useI18n()
+
 const router = useRouter()
 const loginFormDom = ref<any>()
 
@@ -40,6 +43,12 @@ const state = reactive({
     ],
     code: [{ required: true, message: t("login.enterVerification"), trigger: "blur" }]
   },
+
+  setLanguage: (language: string) => {
+    useAppStore().setLanguage(language)
+    i18n.locale.value = language
+  },
+
   /** 登录逻辑 */
   handleLogin: () => {
     loginFormDom.value.validate((valid: boolean) => {
@@ -113,7 +122,7 @@ const state = reactive({
           <el-form-item prop="code">
             <el-input
               v-model="state.loginForm.code"
-              :placeholder="t('login.verificaionCode')"
+              :placeholder="t('login.verificationCode')"
               type="text"
               tabindex="3"
               :prefix-icon="Key"
@@ -128,10 +137,10 @@ const state = reactive({
             {{ t("login.loginButton") }}
           </el-button>
 
-          <el-button :loading="state.loading" type="primary" size="large" @click="useAppStore().setLanguage('zh')">
+          <el-button :loading="state.loading" type="primary" size="large" @click="state.setLanguage('zh-cn')">
             中文
           </el-button>
-          <el-button :loading="state.loading" type="primary" size="large" @click="useAppStore().setLanguage('en')">
+          <el-button :loading="state.loading" type="primary" size="large" @click="state.setLanguage('en')">
             英文
           </el-button>
         </el-form>

@@ -6,7 +6,6 @@
  * @LastEditTime: 2021-01-20 11:12:08
  */
 import { createI18n } from "vue-i18n" // import from runtime only
-
 import { getLanguage } from "@/utils/cookies"
 
 import elementEnLocale from "element-plus/lib/locale/lang/en"
@@ -41,11 +40,12 @@ export const getLocale = () => {
   }
 
   // Default language is english
-  return "zh"
+  return "zh-cn"
 }
 
 const i18n = createI18n({
-  legacy: false,
+  legacy: false, // 使用Composition API模式，设置为false
+  //globalInjection: true,
   locale: getLocale(),
   messages: messages
 })

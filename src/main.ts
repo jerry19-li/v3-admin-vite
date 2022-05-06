@@ -10,9 +10,10 @@ import "@/styles/index.scss"
 import "normalize.css"
 
 const app = createApp(App)
+loadAllPlugins(app)
+
 // 加载全局 svg
 loadSvg(app)
-loadAllPlugins(app)
 
 // 自定义指令
 Object.keys(directives).forEach((key) => {
