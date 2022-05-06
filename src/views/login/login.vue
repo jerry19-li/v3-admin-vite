@@ -4,8 +4,8 @@ import { useRouter } from "vue-router"
 import { useUserStore } from "@/store/modules/user"
 import { User, Lock, Key } from "@element-plus/icons-vue"
 import ThemeSwitch from "@/components/ThemeSwitch/index.vue"
+import LanguageSelect from "@/components/LanguageSelect/index.vue"
 import { useI18n } from "vue-i18n"
-import { useAppStore } from "@/store/modules/app"
 
 interface ILoginForm {
   /** admin 或 editor */
@@ -16,9 +16,7 @@ interface ILoginForm {
   code: string
 }
 
-const i18n = useI18n()
-const { t } = i18n
-//const { t } = useI18n()
+const { t } = useI18n()
 
 const router = useRouter()
 const loginFormDom = ref<any>()
@@ -44,15 +42,9 @@ const state = reactive({
     code: [{ required: true, message: t("login.enterVerification"), trigger: "blur" }]
   },
 
-  setLanguage: (language: string) => {
-    useAppStore().setLanguage(language)
-    i18n.locale.value = language
-  },
-
   /** 登录逻辑 */
   handleLogin: () => {
     loginFormDom.value.validate((valid: boolean) => {
-      valid = false
       if (valid) {
         state.loading = true
         useUserStore()
@@ -136,15 +128,9 @@ const state = reactive({
           <el-button :loading="state.loading" type="primary" size="large" @click.prevent="state.handleLogin">
             {{ t("login.loginButton") }}
           </el-button>
-
-          <el-button :loading="state.loading" type="primary" size="large" @click="state.setLanguage('zh-cn')">
-            中文
-          </el-button>
-          <el-button :loading="state.loading" type="primary" size="large" @click="state.setLanguage('en')">
-            英文
-          </el-button>
         </el-form>
       </div>
+      <LanguageSelect class="lang-switch" />
     </div>
   </div>
 </template>
@@ -176,6 +162,10 @@ const state = reactive({
       img {
         height: 100%;
       }
+    }
+    .lang-switch {
+      cursor: pointer;
+      align-items: right;
     }
     .content {
       padding: 20px 50px 50px 50px;
